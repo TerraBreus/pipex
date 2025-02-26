@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                             :+:    :+:           */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: terrabuntu <terrabuntu@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 09:30:02 by zivanov           #+#    #+#             */
-/*   Updated: 2025/02/19 15:47:43 by zivanov        ########   odam.nl        */
+/*   Updated: 2025/02/26 23:49:16 by terramint        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	main(int argc, char *argv[], char *envp[])
 	char	**paths;
 	int		pid;
 
-	if (argc != 5)
+	im (argc != 5)
 	{
 		ft_putstr_fd("Usage: ./pipex infile cmd1 cmd2 outfile\n", 1);
 		return (0);

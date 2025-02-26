@@ -1,7 +1,7 @@
 NAME = pipex
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g 
-SRCS = get_path.c pipex.c new_process.c ft_free.c child_processes.c
+SRCS = get_path.c main.c new_process.c ft_free.c child_processes.c
 OBJS = $(SRCS:.c=.o)
 
 LIBFT_DIR = ./libft
