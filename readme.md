@@ -45,7 +45,7 @@ pipe-out
 
 Pipe-through will only be called if the TOTAL argc >= 5.
 An additional function will at the very start create the necessary pipes (minimal of 1).
-
+```
 if argc >= 5
 	pipe-in argv[1] argv[2]
 	pipe-through argv[i + 2]
@@ -58,8 +58,21 @@ pipe-in();
 		close (infile)
 	dup pipe-write to stdout
 		close(pipe-read)
-		dup2(std-write, 1)
+		dup2(pipe-write, 1)
 		close(pipe-write)
 	fork to exec cmd1(argv[2])
 		create flags and check for paths
 pipe-through();
+	//This part would need at least two pipes to function.
+	pipe the read side to be std_in
+		dup2(pipe-read, 0)
+		close(pipe-read)
+	pipe the write side of the NEXT PIPE to be std_out
+		close(pipe-NEXT-read)		//syntax: close(pfd[N][0]
+		dup2(pipe-NEXT-write, 1)	//	  dup2(pfd[N][1]
+		close(pipe-NEXT-write)
+	fork to exec and cmdN (argv[N + 2])
+		yes.
+pipe-out();
+	go figure.
+
