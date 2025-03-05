@@ -1,13 +1,8 @@
-How to possible make multiple pipex?
-Code would have to take in an amount of strings, and snip the first and last one for infile and outfile respectively.
-
-Then we would have to call the pipe function for every (N - 1) amount of commands we get. Since the infile and outfile must be specified, the function will need atleast (N - 3) where N cannot be 0, so we will always need at least 4 commands total, if we count the program itself as an argument too, our argument counter would be a minimum of five. 
-1. name of program
-2. name of infile
-3. name of first command
-4. name of last command
-5. name of outfile.
-
+# Issues to adress.
+- Create function that closes all file descriptors/pipes at the end of main.c
+- Use correct exit codes if errors occurs. maybe even write a function that parses the str\_errno so we can print the error message.
+- Unlink the outfile if something goes wrong.
+# Thought processes.
 If we want to add multiple pipes, the structure would have a small difference;
 1. name of program
 2. name of infile

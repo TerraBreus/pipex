@@ -1,6 +1,6 @@
 NAME = pipex
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g 
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address 
 SRC = 	create_pipes.c \
 	execute_command.c \
 	free.c \
