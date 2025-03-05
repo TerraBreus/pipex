@@ -1,8 +1,19 @@
 NAME = pipex
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g 
-SRCS = get_path.c main.c new_process.c ft_free.c child_processes.c
-OBJS = $(SRCS:.c=.o)
+SRC = 	create_pipes.c \
+	execute_command.c \
+	free.c \
+	get_path.c \
+	main.c \
+	pipe_in.c \
+	pipe_out.c \
+	pipe_through.c \
+	pipex.c
+SRC_DIR = src/
+
+OBJ = $(addprefix $(OBJ_DIR), $(SRC:%.c=%.o))
+OBJ_DIR = obj/
 
 LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a
@@ -13,12 +24,16 @@ all: $(LIBFT) $(NAME)
 $(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR)
 
-$(NAME): $(LIBFT) $(OBJS)
-	$(CC) $(CFLAGS)  $(OBJS) $(LDFLAGS) -o $(NAME)
+$(NAME): $(LIBFT) $(OBJ)
+	$(CC) $(CFLAGS)  $(OBJ) $(LDFLAGS) -o $(NAME)
+
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c
+	@mkdir -p $(OBJ_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	$(MAKE) -C $(LIBFT_DIR) clean
-	rm -f $(OBJS)
+	rm -rf $(OBJ_DIR)
 
 fclean: clean
 	rm -f $(NAME)
