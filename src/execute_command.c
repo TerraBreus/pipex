@@ -6,11 +6,13 @@
 /*   By: zivanov <marvin@42.fr>                        +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2025/03/03 16:52:26 by zivanov        #+#    #+#                */
-/*   Updated: 2025/03/03 16:55:35 by zivanov        ########   odam.nl        */
+/*   Updated: 2025/03/05 12:18:01 by zivanov        ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
-char	*find_full_path(char *paths[], char *cmd)
+#include "pipex.h"
+
+static char	*find_full_path(char *paths[], char *cmd)
 {
 	char	*full_dir;
 	char	*dir;
@@ -34,4 +36,21 @@ char	*find_full_path(char *paths[], char *cmd)
 	free(dir);
 	perror("File not found");
 	exit(127);
+}
+
+void	exec_cmd(char **paths, char *cmdline)
+{
+	char	*path;
+	char	**cmd_and_flags;
+	int		pid;
+
+	cmd_and_flags = ft_split(cmdline, ' ');
+	path = find_full_path(paths, cmd_and_flags[0]);
+	pid = fork();
+	if (pid == 0)
+		execve(path, cmd_and_flags, NULL);
+	free(path);
+	ft_free_vector(cmd_and_flags);
+	if (pid == 0)
+		exit(EXIT_FAILURE);
 }

@@ -1,31 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                         ::::::::           */
-/*   main.c                                              :+:    :+:           */
+/*   free.c                                              :+:    :+:           */
 /*                                                      +:+                   */
 /*   By: zivanov <marvin@42.fr>                        +#+                    */
 /*                                                    +#+                     */
-/*   Created: 2025/03/03 10:46:23 by zivanov        #+#    #+#                */
-/*   Updated: 2025/03/05 12:22:13 by zivanov        ########   odam.nl        */
+/*   Created: 2025/03/05 09:38:33 by zivanov        #+#    #+#                */
+/*   Updated: 2025/03/05 11:29:56 by zivanov        ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static void	usage(void)
+void	ft_free_vector(char **strv)
 {
-	ft_putstr_fd("Usage: ./pipex [infile] [cmd_1 cmd_2 ... cmd_n] [outfile]\n", 1);
-}
+	int	i;
 
-int	main(int argc, char *argv[], char *envp[])
-{
-	char	**paths;
-
-	if (argc < 5)
-		return (usage(), 0);
-	//check_infile_outfile(argv[0], argv[argc]);
-	paths = create_possible_paths(envp);
-	pipex(argc - 3, argv, paths);
-	ft_free_vector(paths);
-	return (0);
+	i = -1;
+	while (strv[++i])
+		free(strv[i]);
+	free(strv);
 }

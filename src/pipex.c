@@ -6,7 +6,7 @@
 /*   By: zivanov <marvin@42.fr>                        +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2025/03/03 10:49:19 by zivanov        #+#    #+#                */
-/*   Updated: 2025/03/03 16:45:54 by zivanov        ########   odam.nl        */
+/*   Updated: 2025/03/05 12:57:31 by zivanov        ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ close_all();				(infile, outfile, all pipes)
 
 #include "pipex.h"
 
-void	pipex(int cmd_c, char *argv, char **paths)
+void	pipex(int cmd_c, char *argv[], char **paths)
 {
 	int	**pfd_v;
 	int	i;
@@ -40,11 +40,10 @@ void	pipex(int cmd_c, char *argv, char **paths)
 	while (++i < cmd_c)
 	{
 		if (i == 0)
-			pipe_in(argv[1], pfd_v[i], argv[2], paths);
+			pipe_in(argv[1], argv[2], pfd_v[i][1], paths);
 		else if (i != cmd_c - 1)
 			pipe_through(argv[i + 2], pfd_v, i, paths);
 		else
-			pipe_out(argv[cmd_c + 2], pfd_v[cmd_c - 2], argv[cmd_c + 1], paths);
+			pipe_out(argv[cmd_c + 2], argv[cmd_c + 1], pfd_v[cmd_c - 2][0], paths);
 	}
-	close_all_pipes(pfd_v);
 }

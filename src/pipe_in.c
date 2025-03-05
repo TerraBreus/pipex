@@ -6,7 +6,7 @@
 /*   By: zivanov <marvin@42.fr>                        +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2025/03/03 11:30:20 by zivanov        #+#    #+#                */
-/*   Updated: 2025/03/03 16:35:13 by zivanov        ########   odam.nl        */
+/*   Updated: 2025/03/05 12:41:48 by zivanov        ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ clean up if execve has failed.
 
 #include "pipex.h"
 
-void	pipe_in(char *infile, char *cmdline, int pfd_write, char *paths)
+void	pipe_in(char *infile, char *cmdline, int pfd_write, char **paths)
 {
 	int		fd_infile;	
 
@@ -65,9 +65,8 @@ void	pipe_in(char *infile, char *cmdline, int pfd_write, char *paths)
 	if (dup2(pfd_write, 1) == -1)
 	{
 		close(pfd_write);
-		return (perror("pipe_in -> dup2 pfd_read"));
+		return (perror("pipe_in -> dup2 pfd_write"));
 	}
 	close(pfd_write);
 	exec_cmd(paths, cmdline);
 }
-
