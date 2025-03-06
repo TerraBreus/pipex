@@ -2,6 +2,8 @@
 - Create function that closes all file descriptors/pipes at the end of main.c
 - Use correct exit codes if errors occurs. maybe even write a function that parses the str\_errno so we can print the error message.
 - Unlink the outfile if something goes wrong.
+- If at any point something goes wrong we must still properly close (and free) which with the current exit function is not possible. Better would be to call our own exit function, pass the str\_errno, print the error message, free and close everything and exit with EXIT\_FAILUE
+
 # Thought processes.
 If we want to add multiple pipes, the structure would have a small difference;
 1. name of program
@@ -70,4 +72,4 @@ pipe-through();
 		yes.
 pipe-out();
 	go figure.
-
+```
