@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                         ::::::::           */
-/*   main.c                                              :+:    :+:           */
-/*                                                      +:+                   */
-/*   By: zivanov <marvin@42.fr>                        +#+                    */
-/*                                                    +#+                     */
-/*   Created: 2025/03/03 10:46:23 by zivanov        #+#    #+#                */
-/*   Updated: 2025/03/06 15:51:52 by zivanov        ########   odam.nl        */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zivanov <zivanov@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/03 10:46:23 by zivanov           #+#    #+#             */
+/*   Updated: 2025/03/06 17:12:48 by zivanov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,9 @@ int	main(int argc, char *argv[], char *envp[])
 		return (usage(), 0);
 	check_infile_outfile(argv[0], argv[argc]);
 	paths = create_possible_paths(envp);
-	pipex(argc - 3, argv, paths);
+	if (!paths)
+		return (1);
+	pipex(argc - 3, &argv[1], paths);
 	ft_free_vector(paths);
 	return (0);
 }
