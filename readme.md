@@ -7,6 +7,7 @@ UNIX pipe operator simulated in C using systemcalls.
 - pipe()
 - execve()
 - dup2()
+- wait()
 
 # NOTES
 - `sleep 3 | sleep 3` takes three seconds to finish since both commands are executed 'at the same time'.
