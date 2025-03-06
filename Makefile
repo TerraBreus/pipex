@@ -1,15 +1,18 @@
 NAME = pipex
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address 
-SRC = 	create_pipes.c \
-	execute_command.c \
-	free.c \
-	get_path.c \
-	main.c \
-	pipe_in.c \
-	pipe_out.c \
-	pipe_through.c \
-	pipex.c
+SRC = 	create_pipes.c	 	\
+	execute_command.c	\
+	free.c			\
+	get_path.c		\
+	main.c			\
+	pipe_in.c		\
+	pipe_out.c		\
+	pipe_through.c		\
+	pipex.c			\
+	check_in_out_files.c	\
+	close_and_free_pipes.c	\
+	close_files.c
 SRC_DIR = src/
 
 OBJ = $(addprefix $(OBJ_DIR), $(SRC:%.c=%.o))
