@@ -1,18 +1,36 @@
-#P i p e X
-***multiple pipes possible***
-UNIX pipe operator simulated in C using systemcalls.
-**Systemcalls used:**
-- open()
-- close()
-- pipe()
-- execve()
-- dup2()
-- wait()
+#PipeX
+UNIX pipe operator simulated in C using systemcalls as part of school42 curriculum.
+*sytemcalls used in this project*
+```
+access(), open(), close(), pipe(), execve(), dup2(), wait(), exit()
+```
 
-# NOTES
-- `sleep 3 | sleep 3` takes three seconds to finish since both commands are executed 'at the same time'.
-
+## TOC
+- A small introduction.
+- Some key concepts.
+	- The pipe operator (`|`).
+	- A brief summary of file descriptors.
+	- Systemcalls.
+		- piping()
+		- duping()
+		- forking()
+		- execve()
+- Visual explanation of Pipex.
+- Verbal explanation of PipeX.
+	- Error handling.
+		- How to handle exit codes.
+		- perror() & strerror(): your new best friends.
+	- Piping from in to out.
+		- Duping stdin and stdout to the correct pipe file descriptors.
+	- Closing and freeing.
+		- Considerations on readability, functionality and (memory-)efficiency.
+- Pseudocode.
+- Considerations in retrospect.
+- Notes to self.
 ## Pseudocode
+Before writing the actual code, it often helps to write pseudocode. Not only will you get a better overview and understanding of your program but you may run into possible problems or solutions that failed to come to mind when thinking of the overal structure of your program.
+
+There are many ways of writing pseudocode. In this particular instance, a choice was made to almost immediately simulate the actual code as better practice and to help foreshadow possible problems with the prototypes of all functions.
 ```
 int	check_for_errors(int argc, char *infile, char *outfile, char *envp[])
 		if (argc < 5)						// ./pipex [infile] [cmd_1] [cmd_2] [cmd_n] [outfile]
@@ -114,3 +132,7 @@ int	cmd_pipe(cmd_c, ++argv, envp)
 		wait();							//wait for all children to finish.
 		return (WEXITSTATUS)					//Return exitstatus of last child.
 ```
+# Notes to self.
+- `sleep 3 | sleep 3` takes three seconds to finish since both commands are executed 'at the same time'.
+
+
