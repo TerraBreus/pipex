@@ -6,11 +6,9 @@
 /*   By: terramint <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 16:32:53 by terramint         #+#    #+#             */
-/*   Updated: 2025/03/19 17:44:35 by terramint        ###   ########.fr       */
+/*   Updated: 2025/03/20 19:23:33 by terramint        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "pipex.h"
 
 void close_fds(int *in_out_file, int (*pfd)[2])
 {
@@ -80,13 +78,13 @@ int	setup_cmd(int *last_read_end)
 		return (-1);
 	}
 	close(*last_read_end);
-	if (dup2(pipe_write, 1) == -1)
+	if (dup2(pfd[1], 1) == -1)
 	{
 		close_fds(NULL, &pfd);
 		return (1);
 	}
-	close(pipe_write);
-	last_read_end = pfd[0];
+	close(pfd[1]);
+	*last_read_end = pfd[0];
 	return (0);
 }
 
