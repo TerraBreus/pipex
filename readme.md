@@ -19,8 +19,8 @@ access(), open(), close(), pipe(), execve(), dup2(), wait(), exit()
 		- duping()
 		- forking()
 		- execve()
-- Visual explanation of Pipex.
-- Verbal explanation of PipeX.
+- Visual flowchart of Pipex.
+- Verbal flowchart of PipeX.
 	- Error handling.
 		- How to handle exit codes.
 		- perror() & strerror(): your new best friends.
@@ -53,6 +53,9 @@ As a wise man said;
 Similarly;
 
 `Show me some code and I shall code for a day. Teach me how to code and I shall code for the rest of my life.` 
+
+# Visual flowchart of PipeX
+
 # Pseudocode
 Before writing the actual code, it often helps to write pseudocode. Not only will you get a better overview and understanding of your program but you may run into possible problems or solutions that failed to come to mind when thinking of the overal structure of your program.
 
