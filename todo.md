@@ -15,5 +15,7 @@
 
 - Write function that retrieves the exit status of a "failed" child using WIFEXITED and WEXITSTATUS.
 - Add initial checking of infile and outfile permissions.
+	- if files do not exist or have incorrect permissions, the pipe command can still continue correctly.
+		for example: `< nonexistingfile cat | ls > outfile` will still work. An error will be printed to std\_err informing the user about a (non-critical) problem). If open(nonexistingfile) leads to -1 we can still continue, so we shouldn't exit.
 
 - Initial checking whether the commands have actual commands. (./pipex "infile" "" "" "outfile")
