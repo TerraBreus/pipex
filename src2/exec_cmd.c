@@ -6,7 +6,7 @@
 /*   By: terramint <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:02:34 by terramint         #+#    #+#             */
-/*   Updated: 2025/03/21 15:38:41 by terramint        ###   ########.fr       */
+/*   Updated: 2025/03/22 12:49:52 by terramint        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,33 @@ char	*find_full_path(char *paths[], char *cmd)
 	ft_putstr_fd("Error: command not found.", 2);
 	return (NULL);
 }
+
+char	**create_possible_paths(char *envp[])
+{
+	int		i;
+	char	**possible_paths;
+
+	i = -1;
+	while (ft_strncmp("PATH=", envp[++i], 5) != 0)
+	{
+		if (envp[i] == NULL)
+		{
+			ft_putstr_fd("Error: No path parameter found.", 2);
+			return (NULL);
+		}
+	}
+	possible_paths = ft_split(envp[i] + 5, ':');
+	if (possible_paths == NULL)
+		return (NULL);
+	return (possible_paths);
+}
 void	free_paths(char **possible_paths)
 {
 	int	i;
 	
 	i = -1;
 	while (possible_paths[++i] != NULL)
-		free(*possible_paths);
+		free(possible_paths[i]);
 	free(possible_paths);
 }
 
@@ -73,7 +93,7 @@ int	exec_cmd(char *cmdline, char *envp[])
 		free(cmd_and_flags);
 		return (-1);
 	}
-	execve(path, cmd_and_flags, envp)
+	execve(path, cmd_and_flags, envp);
 	free(path);
 	free_paths(cmd_and_flags);
 	return (-1);

@@ -12,3 +12,8 @@
 	[21 - 03 - 25] Initial prototype has been made. Most of the actual piping and opening/closing is done in create\_children.
 
 - Norminette & refactor entire program.
+
+- Write function that retrieves the exit status of a "failed" child using WIFEXITED and WEXITSTATUS.
+- Add initial checking of infile and outfile permissions.
+
+- Initial checking whether the commands have actual commands. (./pipex "infile" "" "" "outfile")

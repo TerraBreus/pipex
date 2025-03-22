@@ -6,7 +6,7 @@
 /*   By: zivanov <marvin@42.fr>                        +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2025/03/03 10:39:35 by zivanov        #+#    #+#                */
-/*   Updated: 2025/03/21 16:56:41 by terramint        ###   ########.fr       */
+/*   Updated: 2025/03/22 12:12:07 by terramint        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <errno.h>
 # include <fcntl.h>
 # include <unistd.h>
+# include <stdbool.h>
 # include <sys/wait.h>
 # include "../libft/libft.h"
 

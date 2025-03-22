@@ -6,9 +6,11 @@
 /*   By: terramint <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 16:32:53 by terramint         #+#    #+#             */
-/*   Updated: 2025/03/20 19:23:33 by terramint        ###   ########.fr       */
+/*   Updated: 2025/03/22 12:11:19 by terramint        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "pipex.h"
 
 void close_fds(int *in_out_file, int (*pfd)[2])
 {
