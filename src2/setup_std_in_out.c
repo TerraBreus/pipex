@@ -6,7 +6,7 @@
 /*   By: terramint <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 16:32:53 by terramint         #+#    #+#             */
-/*   Updated: 2025/03/22 12:11:19 by terramint        ###   ########.fr       */
+/*   Updated: 2025/03/22 15:14:54 by terramint        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	setup_first_cmd(int infile_fd, int *last_read_end)
 		close_fds(&infile_fd, NULL);
 		return (-1);
 	}
-	if (dup2(infile_fd, 0) == -1)
+	if (dup2(infile_fd, 0) == -1 && infile_fd != -1)
 	{
 		close_fds(&infile_fd, &pfd);
 		return (-1);
@@ -57,7 +57,7 @@ int	setup_last_cmd(int outfile_fd, int *last_read_end)
 		return (-1);
 	}
 	close(*last_read_end);
-	if (dup2(outfile_fd, 1) == -1)
+	if (dup2(outfile_fd, 1) == -1 && outfile_fd != -1)
 	{
 		close(outfile_fd);
 		return (-1);
