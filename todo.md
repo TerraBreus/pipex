@@ -87,6 +87,8 @@ echo ${PIPESTATUS[0]}
 
 This is likely due to the second command finishing after two lines, therefore closing the read end of the pipe even though cat is still trying to write, therefore it never correctly ends.
 
+It might be possible that if we first fork and afterwards call `set_up_std_in_out` the problem is resolved. As of now we first set up std_in_out and fork later.
+
 # Norminette
 - Norminette & refactor entire program.
 
