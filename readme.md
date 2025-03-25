@@ -9,9 +9,9 @@ access(), open(), close(), pipe(), execve(), dup2(), wait(), exit()
 # ToC
 - Abstract.
 - Table of Contents.
-- Introduction.
+- Introduction. **WIP**
 	- A few remarks on writing your own code.
-- Key concepts.
+- Key concepts. **WIP**
 	- The pipe operator (`|`).
 	- A brief summary of file descriptors.
 	- Systemcalls.
@@ -19,8 +19,8 @@ access(), open(), close(), pipe(), execve(), dup2(), wait(), exit()
 		- duping()
 		- forking()
 		- execve()
-- Visual flowchart of Pipex.
-- Verbal flowchart of PipeX.
+- Visual flowchart of Pipex. **WIP**
+- Verbal flowchart of PipeX. **WIP**
 	- Error handling.
 		- How to handle exit codes.
 		- perror() & strerror(): your new best friends.
@@ -28,9 +28,10 @@ access(), open(), close(), pipe(), execve(), dup2(), wait(), exit()
 		- Duping stdin and stdout to the correct pipe file descriptors.
 	- Closing and freeing.
 		- Considerations on readability, functionality and (memory-)efficiency.
-- Pseudocode.
-- Considerations in retrospect.
-- Notes to self.
+- Pseudocode. **WIP**
+- Considerations in retrospect. **WIP**
+- Addendum
+	- todo.md
 
 # Introduction.
 If you are somewhat experienced in UNIX-based systems, there is a high chance you have used pipes before. In short, pipes allow you to redirect the output of a function as the input of another function. Not only does this save you a lot of copy-pasting, it also allows for multiple functions to run at the same time while having the output of the prior function flow to the input of the other (this still feels like magic to me as my knowledge of systemcalls is still limited).
@@ -55,6 +56,8 @@ Similarly;
 `Show me some code and I shall code for a day. Teach me how to code and I shall code for the rest of my life.` 
 
 # Visual flowchart of PipeX
+
+# Verbal flowchart of PipeX
 
 # Pseudocode
 Before writing the actual code, it often helps to write pseudocode. Not only will you get a better overview and understanding of your program but you may run into possible problems or solutions that failed to come to mind when thinking of the overal structure of your program.
@@ -161,7 +164,8 @@ int	cmd_pipe(cmd_c, ++argv, envp)
 		wait();							//wait for all children to finish.
 		return (WEXITSTATUS)					//Return exitstatus of last child.
 ```
-# Notes to self.
-- `sleep 3 | sleep 3` takes three seconds to finish since both commands are executed 'at the same time'.
 
+# Considerations in retrospect.
+# Addendum
+- (todo)[todo.md]
 
