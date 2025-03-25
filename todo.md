@@ -34,6 +34,7 @@
 
 # Incorporate potential errors according to michmos' 42\_PIPEX\_TESTER
 **We are simulating the pipex operator. Exit codes should therefore be identical to the actual pipe operator. (in bash for personal preference and convenience)**
+[42\_PIPEX\_TESTER](https://github.com/michmos/42_pipex_tester) made by the amazing [michmos](https://github.com/michmos)
 
 An example to check the exit status:
 ```
