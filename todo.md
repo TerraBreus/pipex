@@ -4,27 +4,10 @@
 	- Change the header to include the corresponding new functions.i **DONE**
 	- Change the makefile to include the new files. **DONE**
 
-# Flowchart
-- Make a verbal (or visual) flowchart of pipeX.
-	- Initial visual flowchart on paper. **DONE** (See photo on phone 21-03-25)
-	- Revised flowchart after PipeX is "working".
-	- Refined flowchart that is incorporated with refactoring.
-
-- Write function that retrieves the exit status of a "failed" child using WIFEXITED and WEXITSTATUS.
-
 # Fix Exit codes (DONE-ISH?)
 - Write the main pipex function that checks whther each separate process has succeeded and if not returns the correct exit code (errno).
 	[21 - 03 - 25] Initial prototype has been made. Most of the actual piping and opening/closing is done in create\_children.
-
-# Norminette
-- Norminette & refactor entire program.
-
-# Initial checks
-- Add initial checking of infile and outfile permissions.
-	- if files do not exist or have incorrect permissions, the pipe command can still continue correctly.
-		for example: `< nonexistingfile cat | ls > outfile` will still work. An error will be printed to std\_err informing the user about a (non-critical) problem). If open(nonexistingfile) leads to -1 we can still continue, so we shouldn't exit.
-
-- Initial checking whether the commands have actual commands. (./pipex "infile" "" "" "outfile")
+- Retrieve the exit status of a "failed" child using WIFEXITED and WEXITSTATUS. **DONE**
 
 # Incorporate Douwe's necessary changes
 - Fix pipex.c
@@ -41,4 +24,57 @@
 	- :96 -> If `execve()` fails, it might be usefull to print some kind of an error message to `STDERR_FILENO`.
 - Fix `set_up_std_in_out.c`
 	- :18 -> If you the actual file descriptors (so pointers instead of copying the value), you might as well set them to -1 to prevent double closing. (don't forget to check whether the file descriptor is -1 before closing)
+
+# Initial checks
+- Add initial checking of infile and outfile permissions.
+	- if files do not exist or have incorrect permissions, the pipe command can still continue correctly.
+		for example: `< nonexistingfile cat | ls > outfile` will still work. An error will be printed to std\_err informing the user about a (non-critical) problem). If open(nonexistingfile) leads to -1 we can still continue, so we shouldn't exit.
+
+- Initial checking whether the commands have actual commands. (./pipex "infile" "" "" "outfile")
+
+# Incorporate potential errors according to michmos' 42\_PIPEX\_TESTER
+**We are simulating the pipex operator. Exit codes should therefore be identical to the actual pipe operator. (in bash for personal preference and convenience)**
+
+An example to check the exit status:
+```
+bash 
+< infile_without_permissions cat -e | cat -e > outfile
+echo ${PIPESTATUS[0]}
+```
+(*To check all elements use `@` instead of `0`.*)
+
+- Program should have a three second execution time. (as of writing (22-05-2025) it has zero seconds execution time...)
+	- **NB: ./pipex "infiles/basic.txt" "ls" "sleep 3" "outfiles/outfile" does execute for three seconds** 
+```
+./pipex "infiles/basic.txt" "sleep 3" "ls" "outfiles/outfile" 
+< infiles/basic.txt sleep 3 | ls > outfiles/outfile_tester
+```
+- Program seems to have an incorrect exit code.
+```
+./pipex "infiles/infile_without_permissions" "cat -e" "cat -e" "outfiles/outfile"
+< infiles/infile_without_permissions cat -e | cat -e > outfiles/outfile_tester
+```
+- Leaks!
+```
+./pipex "infiles/basic.txt" "nonexistingcommand" "cat -e" "outfiles/outfile"
+./pipex "infiles/basic.txt" "cat -e" "nonexistingcommand" "outfiles/outfile" 
+```
+- Wrong exit status. (should be 127).
+```
+./pipex "infiles/basic.txt" "cat -e" "nonexistingcommand" "outfiles/outfile"
+```
+- timeouts if outfile has no permissions.
+```
+./pipex "infiles/basic.txt" "cat -e" "cat -e" "outfiles/outfile_without_permissions"
+```
+
+# Norminette
+- Norminette & refactor entire program.
+
+# Update `readme.md`
+- Make a verbal (or visual) flowchart of pipeX.
+	- Initial visual flowchart on paper. **DONE** (See photo on phone 21-03-25)
+	- Revised flowchart after PipeX is "working".
+	- Refined flowchart that is incorporated with refactoring.
+
 
