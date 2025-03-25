@@ -9,7 +9,7 @@ access(), open(), close(), pipe(), execve(), dup2(), wait(), exit()
 # ToC
 - Abstract.
 - Table of Contents.
-- Introduction. **WIP**
+- [Introduction](#introduction) **WIP**
 	- A few remarks on writing your own code.
 - Key concepts. **WIP**
 	- The pipe operator (`|`).
@@ -30,7 +30,7 @@ access(), open(), close(), pipe(), execve(), dup2(), wait(), exit()
 		- Considerations on readability, functionality and (memory-)efficiency.
 - Pseudocode. **WIP**
 - Considerations in retrospect. **WIP**
-- Addendum
+- [Addendum](#addendum)
 	- todo.md
 
 # Introduction.
