@@ -167,5 +167,5 @@ int	cmd_pipe(cmd_c, ++argv, envp)
 
 # Considerations in retrospect.
 # Addendum
-- (todo)[todo.md]
+- [todo.md](todo.md)
 
