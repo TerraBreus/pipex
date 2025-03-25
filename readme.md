@@ -10,7 +10,7 @@ access(), open(), close(), pipe(), execve(), dup2(), wait(), exit()
 - [Abstract.](#abstract)
 - [Table of Contents.](#toc)
 - [Introduction.](#introduction) **WIP**
-	- [A few remarks on the Paced System, chatGPT and writing your own code](###a-few-remarks-on-the-paced-system,-chatgpt-and-writing-your-own-code)
+	- [A few remarks on the Paced System, chatGPT and writing your own code](#a-few-remarks-on-the-paced-system,-chatgpt-and-writing-your-own-code)
 - [Key concepts.](#key-concepts) **WIP**
 	- The pipe operator (`|`).
 	- A brief summary of file descriptors.
