@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   pipex.c                                             :+:    :+:           */
 /*                                                    +:+ +:+         +:+     */
 /*   By: terramint <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:21:59 by terramint         #+#    #+#             */
-/*   Updated: 2025/03/22 15:47:51 by terramint        ###   ########.fr       */
+/*   Updated: 2025/03/25 15:32:39 by zivanov        ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	main(int argc, char *argv[], char *envp[])
 	bool	outfile_exists;
 	int	status;
 	int	last_pid;
+
 	if (argc < 5)
 	{
 		ft_putstr_fd("Usage: <infile> <cmd> ... <cmd> <outfile>\n", 1);
@@ -34,6 +35,7 @@ int	main(int argc, char *argv[], char *envp[])
 	}
 	outfile_exists = true;
 	check_permissions(argv[1], argv[argc - 1], &outfile_exists);
+	
 	last_pid = create_children(argc - 3, ++argv, envp);
 	if (last_pid == -1)
 	{
@@ -41,19 +43,21 @@ int	main(int argc, char *argv[], char *envp[])
 			unlink(argv[argc - 1]);
 		return (1);
 	}
-	int	i;
-	i = -1;
 
-	while (++i < argc - 3)
+	waitpid(last_pid, &status, 0);
+
+	int	i;
+	i = 0;
+	while (i < argc - 4)
 	{
-		int	finished_pid;
-		finished_pid = wait(&status);
-		if (finished_pid == last_pid)
-		{
-			if (WIFEXITED(status) != 0)
-				return (WEXITSTATUS(status));
-		}
+		int pid_w;
+		ft_putstr_fd("waiting for children\n", 2);
+		pid_w = wait(NULL);
+		i++;
 	}
+
+	if (WIFEXITED(status) != 0)
+		return (WEXITSTATUS(status));
 	return (1);
 }
 	

@@ -14,6 +14,18 @@
 	- :47 -> while loop must only wait for succesful forks. 
 	- :51 -> wait() does not necessarily work in a linear way. If for some reason, there are still children running even though `finished_pid == last_pid`, you have created a zombie.
 		- Douwe states this might be fixable if we use waitpid() to check the return status of the last process_id before we enter the while loop.
+```
+waitpid(last_pid, &status, 0); \\Wait for the last process to finish.
+while (i < commands_executed)
+{
+	\\Wait for all other processes to finish.
+	wait(NULL);
+	i++;
+}
+if (WIFEXIT(last_pid) == 1)
+	return (WIFEXITSTATUS(last_pid))
+return (0);
+```
 - Fix create\_children.c
 	- :25 -> 0644 should be 0666. You want to give it maximum permission (without executable as that makes no sense). the umask settings will remove anything that is not allowed.
 	- :36 -> Use the macros `STDIN_FILENO` and `STDOUT_FILENO` for portability.
@@ -25,6 +37,8 @@
 - Fix `set_up_std_in_out.c`
 	- :18 -> If you the actual file descriptors (so pointers instead of copying the value), you might as well set them to -1 to prevent double closing. (don't forget to check whether the file descriptor is -1 before closing)
 
+# Add error messages.
+- Whenever a systemcall fails, it would be usefull to print an error message so we know something went wrong.
 # Initial checks
 - Add initial checking of infile and outfile permissions.
 	- if files do not exist or have incorrect permissions, the pipe command can still continue correctly.
@@ -68,6 +82,10 @@ echo ${PIPESTATUS[0]}
 ```
 ./pipex "infiles/basic.txt" "cat -e" "cat -e" "outfiles/outfile_without_permissions"
 ```
+- Program experiences a 'deadlock situation' with the following input:
+`./pipex "infiles/big_text.txt" "cat" "head -2" "outfiles/outfile"`
+
+This is likely due to the second command finishing after two lines, therefore closing the read end of the pipe even though cat is still trying to write, therefore it never correctly ends.
 
 # Norminette
 - Norminette & refactor entire program.

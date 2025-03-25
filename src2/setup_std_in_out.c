@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   setup_std_in_out.c                                 :+:      :+:    :+:   */
+/*   setup_std_in_out.c                                  :+:    :+:           */
 /*                                                    +:+ +:+         +:+     */
 /*   By: terramint <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 16:32:53 by terramint         #+#    #+#             */
-/*   Updated: 2025/03/22 15:14:54 by terramint        ###   ########.fr       */
+/*   Updated: 2025/03/25 16:18:45 by zivanov        ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,30 @@ void close_fds(int *in_out_file, int (*pfd)[2])
 		close((*pfd)[0]);
 		close((*pfd)[1]);
 	}
+}
+
+int	setup_cmd(int *last_read_end)
+{
+	int	pfd[2];
+	if (pipe(pfd) == -1)
+	{
+		close(*last_read_end);
+		return (-1);
+	}
+	if (dup2(*last_read_end, 0) == -1)	
+	{
+		close_fds(last_read_end, &pfd);
+		return (-1);
+	}
+	close(*last_read_end);
+	if (dup2(pfd[1], 1) == -1)
+	{
+		close_fds(NULL, &pfd);
+		return (1);
+	}
+	close(pfd[1]);
+	*last_read_end = pfd[0];
+	return (0);
 }
 
 int	setup_first_cmd(int infile_fd, int *last_read_end)
@@ -66,34 +90,16 @@ int	setup_last_cmd(int outfile_fd, int *last_read_end)
 	return (0);
 }
 
-int	setup_cmd(int *last_read_end)
-{
-	int	pfd[2];
-	if (pipe(pfd) == -1)
-	{
-		close(*last_read_end);
-		return (-1);
-	}
-	if (dup2(*last_read_end, 0) == -1)	
-	{
-		close_fds(last_read_end, &pfd);
-		return (-1);
-	}
-	close(*last_read_end);
-	if (dup2(pfd[1], 1) == -1)
-	{
-		close_fds(NULL, &pfd);
-		return (1);
-	}
-	close(pfd[1]);
-	*last_read_end = pfd[0];
-	return (0);
-}
-
 int	setup_std_in_out(int cmd_i, int cmd_c, int infile_fd, int outfile_fd)
 {
 	static int	last_read_end;
-
+	if (cmd_i == -1)
+	{
+		close(infile_fd);
+		close(outfile_fd);
+		close(last_read_end);
+		return (-1);
+	}
 	if (cmd_i == 0)
 		return (setup_first_cmd(infile_fd, &last_read_end));
 	else if (cmd_i == cmd_c - 1)
