@@ -6,21 +6,11 @@
 /*   By: terramint <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:21:59 by terramint         #+#    #+#             */
-/*   Updated: 2025/03/26 15:49:01 by zivanov        ########   odam.nl        */
+/*   Updated: 2025/03/26 19:21:36 by zivanov        ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-void	check_permissions(char *infile, char *outfile, bool *outfile_exists)
-{
-	if (access(infile, F_OK | R_OK) == -1)
-		perror("Infile insufficient requirements:");
-	if (access(outfile, F_OK) == -1)
-		*outfile_exists = false;
-	if (access(outfile, W_OK) == -1 && access(outfile, F_OK) == 0)
-		perror("Outfile not writable");
-}
 
 int	main(int argc, char *argv[], char *envp[])
 {
@@ -34,29 +24,27 @@ int	main(int argc, char *argv[], char *envp[])
 		return (1);
 	}
 	outfile_exists = true;
-	check_permissions(argv[1], argv[argc - 1], &outfile_exists);
 
-	//Prefer to pass last_pid to create_children and check whether create_children returns -1 in an if statement
-	last_pid = create_children(argc - 3, ++argv, envp);
-	if (last_pid == -1)
+	if (access(argv[argc - 1], F_OK) == -1)
+		outfile_exists = false;
+	last_pid = 0; 
+	if (create_children(argc - 3, ++argv, envp, &last_pid) == -1)
 	{
-		while (wait(NULL) != -1);
 		if (outfile_exists == false)
 			unlink(argv[argc - 1]);
+		if (last_pid > 0)
+		{
+			waitpid(last_pid, &status, 0);
+			while (wait(NULL) != -1);
+			if (WIFEXITED(status) != 0)
+				return (WEXITSTATUS(status));
+		}
+		while (wait(NULL) != -1);
 		return (1);
 	}
 
 	waitpid(last_pid, &status, 0);
-
-	int	i;
-	i = 0;
-	while (i < argc - 4)
-	{
-		int pid_w;
-		ft_putstr_fd("waiting for children\n", 2);
-		pid_w = wait(NULL);
-		i++;
-	}
+	while (wait(NULL) != -1);
 
 	if (WIFEXITED(status) != 0)
 		return (WEXITSTATUS(status));

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_cmd.c                                         :+:      :+:    :+:   */
+/*   exec_cmd.c                                          :+:    :+:           */
 /*                                                    +:+ +:+         +:+     */
 /*   By: terramint <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:02:34 by terramint         #+#    #+#             */
-/*   Updated: 2025/03/22 12:49:52 by terramint        ###   ########.fr       */
+/*   Updated: 2025/03/26 19:14:38 by zivanov        ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,7 @@ char	*find_full_path(char *paths[], char *cmd)
 		free(path);
 	}
 	free(addendum);
-	ft_putstr_fd("Error: command not found.", 2);
-	return (NULL);
+	return (ft_strdup(cmd));
 }
 
 char	**create_possible_paths(char *envp[])
@@ -90,10 +89,11 @@ int	exec_cmd(char *cmdline, char *envp[])
 	free_paths(possible_paths);
 	if (path == NULL)
 	{
-		free(cmd_and_flags);
+		free_paths(cmd_and_flags);
 		return (-1);
 	}
 	execve(path, cmd_and_flags, envp);
+	perror(path);
 	free(path);
 	free_paths(cmd_and_flags);
 	return (-1);
