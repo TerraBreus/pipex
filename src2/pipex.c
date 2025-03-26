@@ -6,7 +6,7 @@
 /*   By: terramint <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:21:59 by terramint         #+#    #+#             */
-/*   Updated: 2025/03/26 14:01:00 by zivanov        ########   odam.nl        */
+/*   Updated: 2025/03/26 15:49:01 by zivanov        ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	check_permissions(char *infile, char *outfile, bool *outfile_exists)
 		perror("Infile insufficient requirements:");
 	if (access(outfile, F_OK) == -1)
 		*outfile_exists = false;
-	if (access(outfile, W_OK) == -1)
+	if (access(outfile, W_OK) == -1 && access(outfile, F_OK) == 0)
 		perror("Outfile not writable");
 }
 
@@ -35,10 +35,12 @@ int	main(int argc, char *argv[], char *envp[])
 	}
 	outfile_exists = true;
 	check_permissions(argv[1], argv[argc - 1], &outfile_exists);
-	
+
+	//Prefer to pass last_pid to create_children and check whether create_children returns -1 in an if statement
 	last_pid = create_children(argc - 3, ++argv, envp);
 	if (last_pid == -1)
 	{
+		while (wait(NULL) != -1);
 		if (outfile_exists == false)
 			unlink(argv[argc - 1]);
 		return (1);
