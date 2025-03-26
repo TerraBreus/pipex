@@ -6,7 +6,7 @@
 /*   By: terramint <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 16:32:53 by terramint         #+#    #+#             */
-/*   Updated: 2025/03/25 16:18:45 by zivanov        ########   odam.nl        */
+/*   Updated: 2025/03/26 14:00:07 by zivanov        ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,20 +90,23 @@ int	setup_last_cmd(int outfile_fd, int *last_read_end)
 	return (0);
 }
 
-int	setup_std_in_out(int cmd_i, int cmd_c, int infile_fd, int outfile_fd)
+int	setup_std_in_out(int i, int cmd_c, char** argv,int* saved_fd)
 {
-	static int	last_read_end;
-	if (cmd_i == -1)
+	static int infile_fd;
+	infile_fd = open(argv[0], O_RDONLY);
+	static int outfile_fd;
+	outfile_fd = open(argv[cmd_c + 1], O_WRONLY | O_TRUNC | O_CREAT, 0666);
+	if (i == -1)
 	{
 		close(infile_fd);
 		close(outfile_fd);
-		close(last_read_end);
+		close(*saved_fd);
 		return (-1);
 	}
-	if (cmd_i == 0)
-		return (setup_first_cmd(infile_fd, &last_read_end));
-	else if (cmd_i == cmd_c - 1)
-		return (setup_last_cmd(outfile_fd, &last_read_end));
+	if (i == 0)
+		return (setup_first_cmd(infile_fd, saved_fd));
+	else if (i == cmd_c - 1)
+		return (setup_last_cmd(outfile_fd, saved_fd));
 	else
-		return (setup_cmd(&last_read_end));
+		return (setup_cmd(saved_fd));
 }
