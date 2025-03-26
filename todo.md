@@ -13,15 +13,11 @@
 - Fix pipex.c
 	- :47 -> while loop must only wait for succesful forks. 
 	- :51 -> wait() does not necessarily work in a linear way. If for some reason, there are still children running even though `finished_pid == last_pid`, you have created a zombie.
-		- Douwe states this might be fixable if we use waitpid() to check the return status of the last process_id before we enter the while loop.
+		- Douwe states this might be fixable if we use waitpid() to check the return status of the last process_id before we enter the while loop. **DONE**
 ```
 waitpid(last_pid, &status, 0); \\Wait for the last process to finish.
-while (i < commands_executed)
-{
-	\\Wait for all other processes to finish.
-	wait(NULL);
-	i++;
-}
+while (wait(NULL) != -1)
+	;
 if (WIFEXIT(last_pid) == 1)
 	return (WIFEXITSTATUS(last_pid))
 return (0);
