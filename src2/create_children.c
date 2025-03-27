@@ -6,7 +6,7 @@
 /*   By: terramint <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 19:26:12 by terramint         #+#    #+#             */
-/*   Updated: 2025/03/27 14:14:06 by zivanov        ########   odam.nl        */
+/*   Updated: 2025/03/27 14:21:04 by zivanov        ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ bool	check_permissions(int i, int cmd_c, char **argv)
 	}
 	else if (i == cmd_c - 1)
 	{
-		if (access(argv[cmd_c + 1], W_OK) == -1 && access(argv[cmd_c + 1], F_OK) == 0)
+		if (access(argv[cmd_c + 1], W_OK) == -1 \
+			&& access(argv[cmd_c + 1], F_OK) == 0)
 		{
 			perror("Outfile insuffcient requirements");
 			return (false);
@@ -33,15 +34,16 @@ bool	check_permissions(int i, int cmd_c, char **argv)
 	return (true);
 }
 
-void	close_stdio(void)
+int	close_stdio_and_return(int return_status)
 {
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);
+	return (return_status);
 }
 
 void	execfail_exit(void)
 {
-	close_stdio();
+	close_stdio_and_return(0);
 	if (errno == ENOENT)
 		exit(127);
 	exit(EXIT_FAILURE);
@@ -51,8 +53,7 @@ int	fork_failure(int *saved_fd)
 {
 	perror("Forking failed. Closing all file descriptors:");
 	setup_std_in_out(-1, 0, NULL, saved_fd);
-	close_stdio();
-	return (-1);
+	return (close_stdio_and_return(-1));
 }
 
 int	create_children(int cmd_c, char *argv[], char *envp[], int *last_pid)
@@ -65,7 +66,7 @@ int	create_children(int cmd_c, char *argv[], char *envp[], int *last_pid)
 	while (++i < cmd_c)
 	{
 		if (setup_std_in_out(i, cmd_c, argv, &saved_fd) == -1)
-			return (close_stdio(), -1);
+			return (close_stdio_and_return(-1));
 		if (check_permissions(i, cmd_c, argv) == true)
 		{
 			pid_t = fork();
@@ -80,7 +81,6 @@ int	create_children(int cmd_c, char *argv[], char *envp[], int *last_pid)
 			}
 		}
 	}
-	close_stdio();
 	*last_pid = pid_t;
-	return (0);
+	return (close_stdio_and_return(0));
 }
