@@ -6,7 +6,7 @@
 /*   By: terramint <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:02:34 by terramint         #+#    #+#             */
-/*   Updated: 2025/03/26 19:14:38 by zivanov        ########   odam.nl        */
+/*   Updated: 2025/03/27 12:38:11 by zivanov        ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char	*find_full_path(char *paths[], char *cmd)
 {
 	char	*addendum;
 	char	*path;
-	int	i;
+	int		i;
 
 	addendum = ft_strjoin("/", cmd);
 	if (addendum == NULL)
@@ -60,10 +60,11 @@ char	**create_possible_paths(char *envp[])
 		return (NULL);
 	return (possible_paths);
 }
+
 void	free_paths(char **possible_paths)
 {
-	int	i;
-	
+	int		i;
+
 	i = -1;
 	while (possible_paths[++i] != NULL)
 		free(possible_paths[i]);
@@ -98,4 +99,3 @@ int	exec_cmd(char *cmdline, char *envp[])
 	free_paths(cmd_and_flags);
 	return (-1);
 }
-	

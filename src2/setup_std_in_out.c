@@ -6,13 +6,13 @@
 /*   By: terramint <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 16:32:53 by terramint         #+#    #+#             */
-/*   Updated: 2025/03/26 15:46:36 by zivanov        ########   odam.nl        */
+/*   Updated: 2025/03/27 14:04:13 by zivanov        ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void close_fds(int *in_out_file, int (*pfd)[2])
+void	close_fds(int *in_out_file, int (*pfd)[2])
 {
 	if (in_out_file != NULL)
 		close(*in_out_file);
@@ -26,12 +26,13 @@ void close_fds(int *in_out_file, int (*pfd)[2])
 int	setup_cmd(int *last_read_end)
 {
 	int	pfd[2];
+
 	if (pipe(pfd) == -1)
 	{
 		close(*last_read_end);
 		return (-1);
 	}
-	if (dup2(*last_read_end, 0) == -1)	
+	if (dup2(*last_read_end, 0) == -1)
 	{
 		close_fds(last_read_end, &pfd);
 		return (-1);
@@ -87,16 +88,21 @@ int	setup_last_cmd(int outfile_fd, int *last_read_end)
 	{
 		close(outfile_fd);
 		return (-1);
-	}	
+	}
 	close(outfile_fd);
 	return (0);
 }
 
-int	setup_std_in_out(int i, int cmd_c, char** argv,int* saved_fd)
+int	setup_std_in_out(int i, int cmd_c, char **argv, int *saved_fd)
 {
-	static int infile_fd;
-	static int outfile_fd;
+	static int	infile_fd = -99;
+	static int	outfile_fd = -99;
 
+	if ((infile_fd == -99 || outfile_fd == -99) && argv != NULL)
+	{
+		infile_fd = open(argv[0], O_RDONLY);
+		outfile_fd = open(argv[cmd_c + 1], O_WRONLY | O_TRUNC | O_CREAT, 0666);
+	}
 	if (i == -1)
 	{
 		close(infile_fd);
@@ -105,15 +111,9 @@ int	setup_std_in_out(int i, int cmd_c, char** argv,int* saved_fd)
 		return (-1);
 	}
 	if (i == 0)
-	{
-		infile_fd = open(argv[0], O_RDONLY);
 		return (setup_first_cmd(infile_fd, saved_fd));
-	}
 	else if (i == cmd_c - 1)
-	{
-		outfile_fd = open(argv[cmd_c + 1], O_WRONLY | O_TRUNC | O_CREAT, 0666);
 		return (setup_last_cmd(outfile_fd, saved_fd));
-	}
 	else
 		return (setup_cmd(saved_fd));
 }
