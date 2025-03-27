@@ -6,7 +6,7 @@
 /*   By: terramint <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:21:59 by terramint         #+#    #+#             */
-/*   Updated: 2025/03/27 13:25:08 by zivanov        ########   odam.nl        */
+/*   Updated: 2025/03/27 15:49:48 by zivanov        ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,8 @@
 
 int	ft_usage(void)
 {
-	ft_putstr_fd("Usage: <infile> <cmd> ... <cmd> <outfile>\n", 1);
+	ft_putstr_fd("Usage: <infile> <cmd> ... <cmd> <outfile>\n", STDERR_FILENO);
 	return (1);
-}
-
-bool	is_str_empty(char *str)
-{
-	if (str == NULL || *str == '\0')
-		return (true);
-	while (*str != '\0')
-	{
-		if (ft_isprint(*str) && !(*str == ' '))
-			return (false);
-		str++;
-	}
-	return (true);
 }
 
 bool	argv_has_empty_str(char **argv)
@@ -38,7 +25,7 @@ bool	argv_has_empty_str(char **argv)
 	i = 0;
 	while (argv[++i] != NULL)
 	{
-		if (is_str_empty(argv[i]) == true)
+		if (argv[i][0] == '\0')
 			return (true);
 	}
 	return (false);
