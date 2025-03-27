@@ -1,6 +1,0 @@
-create_children.c
-exec_cmd.c
-outfile
-pipex.c
-pipex.h
-setup_std_in_out.c
