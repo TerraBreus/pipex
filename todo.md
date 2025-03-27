@@ -35,14 +35,14 @@ return (0);
 
 # Add error messages.
 - Whenever a systemcall fails, it would be usefull to print an error message so we know something went wrong.
-# Initial checks
+# Initial checks **DONE**
 - Add initial checking of infile and outfile permissions.
 	- if files do not exist or have incorrect permissions, the pipe command can still continue correctly.
 		for example: `< nonexistingfile cat | ls > outfile` will still work. An error will be printed to std\_err informing the user about a (non-critical) problem). If open(nonexistingfile) leads to -1 we can still continue, so we shouldn't exit.
 
 - Initial checking whether the commands have actual commands. (./pipex "infile" "" "" "outfile")
 
-# Incorporate potential errors according to michmos' 42\_PIPEX\_TESTER
+# Incorporate potential errors according to michmos' 42\_PIPEX\_TESTER **DONE**
 **We are simulating the pipex operator. Exit codes should therefore be identical to the actual pipe operator. (in bash for personal preference and convenience)**
 [42\_PIPEX\_TESTER](https://github.com/michmos/42_pipex_tester) made by the amazing [michmos](https://github.com/michmos)
 

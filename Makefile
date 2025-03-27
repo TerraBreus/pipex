@@ -4,6 +4,7 @@ CFLAGS = -Wall -Wextra -Werror -g
 SRC = 	create_children.c	\
 	exec_cmd.c		\
 	setup_std_in_out.c	\
+	utils.c			\
 	pipex.c
 SRC_DIR = src2/
 

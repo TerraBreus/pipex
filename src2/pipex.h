@@ -6,7 +6,7 @@
 /*   By: zivanov <marvin@42.fr>                        +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2025/03/03 10:39:35 by zivanov        #+#    #+#                */
-/*   Updated: 2025/03/27 15:34:57 by zivanov        ########   odam.nl        */
+/*   Updated: 2025/03/27 18:23:08 by zivanov        ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,6 @@
 int		setup_std_in_out(int cmd_i, int cmd_c, char **argv, int *saved_fd);
 int		create_children(int cmd_c, char *argv[], char *envp[], int *last_pid);
 void	child_operation(int i, char **argv, char **envp);
+bool	is_only_space(char *str);
+void	ft_close(int fd);
 #endif

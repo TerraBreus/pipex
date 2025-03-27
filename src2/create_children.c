@@ -6,7 +6,7 @@
 /*   By: terramint <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 19:26:12 by terramint         #+#    #+#             */
-/*   Updated: 2025/03/27 15:34:45 by zivanov        ########   odam.nl        */
+/*   Updated: 2025/03/27 18:22:51 by zivanov        ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ bool	check_permissions(int i, int cmd_c, char **argv)
 
 int	close_stdio_and_return(int return_status)
 {
-	close(STDIN_FILENO);
-	close(STDOUT_FILENO);
+	ft_close(STDIN_FILENO);
+	ft_close(STDOUT_FILENO);
 	return (return_status);
 }
 
@@ -66,8 +66,8 @@ int	create_children(int cmd_c, char *argv[], char *envp[], int *last_pid)
 				return (fork_failure(&saved_fd));
 			if (pid_t == 0)
 			{
-				if (i < cmd_c -1)
-					close(saved_fd);
+				if (i < cmd_c - 1)
+					ft_close(saved_fd);
 				child_operation(i, argv, envp);
 			}
 		}
