@@ -6,7 +6,7 @@
 /*   By: terramint <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:02:34 by terramint         #+#    #+#             */
-/*   Updated: 2025/03/27 12:38:11 by zivanov        ########   odam.nl        */
+/*   Updated: 2025/03/27 15:34:23 by zivanov        ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,5 +97,17 @@ int	exec_cmd(char *cmdline, char *envp[])
 	perror(path);
 	free(path);
 	free_paths(cmd_and_flags);
-	return (-1);
+	return (127);
+}
+
+void	child_operation(int i, char **argv, char **envp)
+{
+	int	err_code;
+
+	err_code = exec_cmd(argv[i + 1], envp);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+	if (err_code == 127)
+		exit(127);
+	exit(EXIT_FAILURE);
 }

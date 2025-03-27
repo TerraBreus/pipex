@@ -6,7 +6,7 @@
 /*   By: terramint <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 19:26:12 by terramint         #+#    #+#             */
-/*   Updated: 2025/03/27 14:21:04 by zivanov        ########   odam.nl        */
+/*   Updated: 2025/03/27 15:34:45 by zivanov        ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,6 @@ int	close_stdio_and_return(int return_status)
 	return (return_status);
 }
 
-void	execfail_exit(void)
-{
-	close_stdio_and_return(0);
-	if (errno == ENOENT)
-		exit(127);
-	exit(EXIT_FAILURE);
-}
-
 int	fork_failure(int *saved_fd)
 {
 	perror("Forking failed. Closing all file descriptors:");
@@ -76,8 +68,7 @@ int	create_children(int cmd_c, char *argv[], char *envp[], int *last_pid)
 			{
 				if (i < cmd_c -1)
 					close(saved_fd);
-				if (exec_cmd(argv[i + 1], envp) == -1)
-					execfail_exit();
+				child_operation(i, argv, envp);
 			}
 		}
 	}
